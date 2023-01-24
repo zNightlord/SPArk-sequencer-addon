@@ -16,6 +16,7 @@ class WM_OT_timeline_sync_toggle(bpy.types.Operator):
 
     def execute(self, context: bpy.types.Context):
         sync_settings = get_sync_settings()
+        sync_settings.sync_all_windows = not sync_settings.enabled
         sync_settings.enabled = not sync_settings.enabled
 
         """NOTE: The below code is an integration with 
