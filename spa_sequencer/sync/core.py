@@ -27,6 +27,14 @@ class TimelineSyncSettings(bpy.types.PropertyGroup):
         description="The Scene that drives the Timeline Synchronization",
     )
 
+    sync_during_animation: bpy.props.BoolProperty(
+        name="Sync during 3D View Playback",
+        description=(
+            "Change the active scene during 3D Animation playback. CAUTION: This can be unstable if any strips have overlapping time"
+        ),
+        default=False,
+    )
+
     bidirectional: bpy.props.BoolProperty(
         name="Bidirectional",
         description=(
@@ -384,8 +392,9 @@ def update_preview_range(scene_strip: bpy.types.SceneSequence):
     end = remap_frame_value(scene_strip.frame_final_end, scene_strip) - 1
     if start != scene_strip.scene.frame_preview_start:
         scene_strip.scene.frame_preview_start = start
+    # Preview Range end is one frame extended to allow unviersal playback TODO Improve
     if end != scene_strip.scene.frame_preview_end:
-        scene_strip.scene.frame_preview_end = end
+        scene_strip.scene.frame_preview_end = end + 1
 
 
 def sync_system_update(context: bpy.types.Context, force: bool = False):
@@ -487,8 +496,9 @@ def sync_system_update(context: bpy.types.Context, force: bool = False):
 
             # Don't update master time if user is scrubbing through the timeline
             # or if the animation is playing to avoid unwanted scene switching.
-            if context.screen.is_scrubbing or context.screen.is_animation_playing:
-                return
+            if not sync_settings.sync_during_animation:
+                if context.screen.is_scrubbing or context.screen.is_animation_playing:
+                    return
 
         # Apply the offset to master scene, and return.
         # The master scene and cache update will happen in the next frame_change_post
