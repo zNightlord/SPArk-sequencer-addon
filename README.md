@@ -15,7 +15,7 @@ The add-on is under development to adapt it to work with vanilla blender. It's n
 
 ## User Guide
 - User documentation from the source project is available [here](https://the-spa-studios.github.io/blender-spa-userdoc/).
-- To install opentimelineio follow these https://gitlab.com/superprod/stax_suite/vse_io/-/blob/master/README.md#setup
+- To install opentimelineio follow [these instructions](https://gitlab.com/superprod/stax_suite/vse_io/-/blob/master/README.md#setup)
 
 ## License
 
@@ -24,6 +24,7 @@ _SPA Sequencer Addon_ is licensed under the GNU General Public License, Version 
 A full copy of the GPLv3 license can be found at [COPYING.md](./COPYING.md).
 
 ## Credits
-Authors of https://github.com/The-SPA-Studios/sequencer-addon 
+**Authors of https://github.com/The-SPA-Studios/sequencer-addon**
+
 The SPA Studios pipeline team (2021-2023):  
 Antoine Boellinger ([@aboellinger](https://github.com/aboellinger)), Bryan Fordney ([@bryab](https://github.com/bryab)), Falk David ([@falkdavid](https://github.com/falkdavid)), Mickael Villain ([@micka-06](https://github.com/micka-06)), Nick Alberelli ([@NickTiny](https://github.com/NickTiny)), Paolo Fazio ([@PaoloFazio](https://github.com/PaoloFazio)), Yann Lanthony ([@yann-lty](https://github.com/yann-lty)).
