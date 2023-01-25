@@ -128,8 +128,11 @@ class VIEW3D_PT_sequence(bpy.types.Panel):
         )
 
     def draw(self, context):
+        sync_settings = get_sync_settings()
+        self.layout.prop(sync_settings, "sync_during_animation")
         self.layout.use_property_split = True
-        master_scene = get_sync_settings().master_scene
+
+        master_scene = sync_settings.master_scene
         if (
             not master_scene
             or not master_scene.sequence_editor
@@ -205,7 +208,6 @@ class VIEW3D_PT_sequence(bpy.types.Panel):
             )
             props.camera = context.scene.camera.name
         row = col.row()
-        row.operator("scene.camera_select", icon="RESTRICT_SELECT_OFF", text="Select")
 
 
 class PROPERTIES_PT_obj_users_scene_check(bpy.types.Panel):
