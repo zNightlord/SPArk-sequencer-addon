@@ -11,9 +11,8 @@ Features:
 - Editorial import/export capabilities (based on OTIO).
 - Shared folders (collection linking between scenes).
 
-The add-on is under development to adapt it to work with vanilla blender. It's not ready for production at this time. 
-
 ## User Guide
+- Find the latest releases here: https://github.com/NickTiny/SPArk-sequencer-addon/releases
 - User documentation from the source project is available [here](https://the-spa-studios.github.io/blender-spa-userdoc/).
 - To install opentimelineio follow [these instructions](https://gitlab.com/superprod/stax_suite/vse_io/-/blob/master/README.md#setup)
 
