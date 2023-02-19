@@ -129,7 +129,6 @@ class VIEW3D_PT_sequence(bpy.types.Panel):
 
     def draw(self, context):
         sync_settings = get_sync_settings()
-        self.layout.prop(sync_settings, "sync_during_animation")
         self.layout.use_property_split = True
 
         master_scene = sync_settings.master_scene
