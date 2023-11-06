@@ -20,7 +20,7 @@ class DOPESHEET_PT_Sequence(bpy.types.Panel):
     bl_label = "Sequence"
     bl_space_type = "DOPESHEET_EDITOR"
     bl_region_type = "UI"
-    bl_category = "SPA.Sequencer"
+    bl_category = "Sequencer"
 
     @classmethod
     def poll(cls, context: bpy.types.Context):
@@ -115,7 +115,7 @@ class SEQUENCE_UL_shot(bpy.types.UIList):
 
 class VIEW3D_PT_sequence(bpy.types.Panel):
     bl_label = "Sequence"
-    bl_category = "SPA.Sequencer"
+    bl_category = "Sequencer"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
 
@@ -175,7 +175,7 @@ class VIEW3D_PT_sequence(bpy.types.Panel):
         col = shot_box.column()
         active_cam = context.scene.camera
         strip_cam = strip.scene_camera
-        if not active_cam and not strip_cam:
+        if not active_cam or not strip_cam:
             text = "None"
             icon = "NONE"
         else:
