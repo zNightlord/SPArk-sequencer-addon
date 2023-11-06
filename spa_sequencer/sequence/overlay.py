@@ -93,7 +93,7 @@ def draw_shot_strip(
     # Shot name
     font_id = 0
     blf.color(font_id, *(TEXT_COLOR_ACTIVE if active else TEXT_COLOR_BASE))
-    blf.size(font_id, int(11 * bpy.context.preferences.system.ui_scale) / 72)
+    blf.size(font_id, int(11 * bpy.context.preferences.system.ui_scale), 72)
 
     # Compute text dimensions for horizontal centering
     dims = blf.dimensions(0, strip.name)
@@ -191,10 +191,9 @@ class GIZMO_GT_MouseArea(GIZMO_GT_Rectangle):
         return 0 if res else -1
 
 
-class DOPESHEET_GGT_SequenceGizmos(bpy.types.GizmoGroup):
+class BASE_SequenceGizmos:
     bl_label = "Sequence Gizmos"
     bl_options = {"PERSISTENT", "SHOW_MODAL_ALL", "SCALE"}
-    bl_space_type = "DOPESHEET_EDITOR"
     bl_region_type = "WINDOW"
 
     @classmethod
@@ -311,19 +310,25 @@ class DOPESHEET_GGT_SequenceGizmos(bpy.types.GizmoGroup):
         props.mode = "SLIP"
 
         # Sequence timeline scrub gizmo
-        self.sequence_timeline, props = self.add_gizmo("dopesheet.sequence_navigate")
+        self.sequence_timeline, props = self.add_gizmo("sequence.sequence_navigate")
         self.sequence_timeline.cursor = ""
         self.sequence_timeline.color = 0.17, 0.17, 0.17
         self.sequence_timeline.alpha = 0.8
         self.sequence_timeline.alpha_highlight = 0.8
         self.sequence_timeline.color_highlight = self.sequence_timeline.color
 
+class DOPESHEET_GGT_SequenceGizmos(BASE_SequenceGizmos, bpy.types.GizmoGroup):
+    bl_space_type = "DOPESHEET_EDITOR"
+
+
+class NLA_GGT_SequenceGizmos(BASE_SequenceGizmos, bpy.types.GizmoGroup):
+    bl_space_type = "NLA_EDITOR"
 
 # Global handle object to store registered custom overlay draw callback
 draw_cb_handle = []
 
 
-def enable_sequence_overlay():
+def enable_sequence_overlay(dopesheet=True):
     # Discard overlay in background mode or if already registered
     if bpy.app.background or draw_cb_handle:
         return
@@ -331,19 +336,26 @@ def enable_sequence_overlay():
     # Create a PolyDrawer instance for custom shape drawing
     drawer = OverlayDrawer()
     # Register the sequence overlay draw callback in dopesheet based editors
-    draw_cb_handle[:] = [
-        bpy.types.SpaceDopeSheetEditor.draw_handler_add(
-            draw_sequence_overlay_cb, (drawer,), "WINDOW", "POST_PIXEL"
-        )
-    ]
+    if dopesheet:
+      draw = bpy.types.SpaceDopeSheetEditor.draw_handler_add(
+                  draw_sequence_overlay_cb, (drawer,), "WINDOW", "POST_PIXEL"
+              )
+    else:
+      draw = bpy.types.SpaceNLA.draw_handler_add(
+                  draw_sequence_overlay_cb, (drawer,), "WINDOW", "POST_PIXEL"
+              )
+    draw_cb_handle[:] = [draw]
 
 
-def disable_sequence_overlay():
+def disable_sequence_overlay(dopesheet=True):
     # Discard if draw callback has not been registered
     if not draw_cb_handle:
         return
     # Remove sequence overlay draw callback
-    bpy.types.SpaceDopeSheetEditor.draw_handler_remove(draw_cb_handle[0], "WINDOW")
+    if dopesheet:
+      bpy.types.SpaceDopeSheetEditor.draw_handler_remove(draw_cb_handle[0], "WINDOW")
+    else:
+      bpy.types.SpaceNLA.draw_handler_remove(draw_cb_handle[0], "WINDOW")
     # Clear global handle object
     draw_cb_handle.clear()
 
@@ -352,14 +364,17 @@ classes = (
     GIZMO_GT_Rectangle,
     GIZMO_GT_MouseArea,
     DOPESHEET_GGT_SequenceGizmos,
+    NLA_GGT_SequenceGizmos,
 )
 
 
 def register():
     enable_sequence_overlay()
+    enable_sequence_overlay(dopesheet=False)
     register_classes(classes)
 
 
 def unregister():
     disable_sequence_overlay()
+    disable_sequence_overlay(dopesheet=False)
     unregister_classes(classes)

@@ -13,7 +13,7 @@ from spa_sequencer.sync.core import (
 
 
 class DOPESHEET_OT_sequence_navigate(bpy.types.Operator):
-    bl_idname = "dopesheet.sequence_navigate"
+    bl_idname = "sequence.sequence_navigate"
     bl_label = "Navigate Sequence"
     bl_description = "Navigate master sequence"
     bl_options = {"UNDO", "BLOCKING", "INTERNAL"}
