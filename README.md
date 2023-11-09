@@ -1,6 +1,7 @@
 # SPArk Sequencer Addon
 
-This add-on is a fork of https://github.com/The-SPA-Studios/sequencer-addon. It contains a set of tools that improve the sequence workflow in Blender.
+This add-on is a fork of https://github.com/The-SPA-Studios/sequencer-addon. It contains a set of tools that improve the sequence workflow in Blender. 
+This branch additionally modified, fixing for Bforartist sequencer branch.
 It can be used for Storyboarding or Layout, to work simultaneously on different shots,
 leveraging Blender's native concepts of _scenes_ and _cameras_, as well as the _Video Sequence Editor_ (VSE).
 
@@ -10,6 +11,12 @@ Features:
 - Batch rendering shots from the VSE.
 - Editorial import/export capabilities (based on OTIO).
 - Shared folders (collection linking between scenes).
+
+Bforartists changes:
+- Update for 4.0 blf and gpu (remove bgl)
+- Add OTIO pip install under preferences
+- Change the UI Layout (a little bit)
+- Fix some operators those have issues
 
 ## User Guide
 - Find the latest releases here: https://github.com/NickTiny/SPArk-sequencer-addon/releases
